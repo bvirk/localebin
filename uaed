@@ -5,6 +5,12 @@ if [ $uname2 = "root" ]; then
 else
 	wmctrl -s0	
 #	jedit $1
-	code $1 &
+	dirnam=`dirname $0`
+	workspace=`basename $dirnam`.code-workspace
+	if [ -f "$workspace" ]; then
+		code "$workspace" $1 &
+	else
+		code $1 &
+	fi
 #	code $1  >/dev/null 2>&1
 fi
