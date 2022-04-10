@@ -1,6 +1,6 @@
-## Scripts in ~/bin
+### Scripts in ~/bin
 
-###### system
+##### System
 Linux mint 20.2
 
 Some customization is needed besides installing packages. Script is placed in ~/bin, which is in PATH
