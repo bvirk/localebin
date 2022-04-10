@@ -1,0 +1,44 @@
+#!/usr/bin/ruby -w
+require "yaml.rb"
+#YAML::ENGINE.yamler='syck'
+=begin
+---
+p1: http://live-icy.gss.dr.dk/A/A03L.mp3.m3u
+p2: http://live-icy.gss.dr.dk/A/A04L.mp3.m3u
+p3: http://live-icy.gss.dr.dk/A/A05L.mp3.m3u
+p4: http://live-icy.gss.dr.dk/A/A11L.mp3.m3u
+p5: http://live-icy.gss.dr.dk/A/A25L.mp3.m3u
+p6: http://live-icy.gss.dr.dk/A/A29L.mp3.m3u
+p8: http://live-icy.gss.dr.dk/A/A22L.mp3.m3u
+guld: http://stream.wlmm.dk/listen.pls?sid=1
+hallingdal: http://audio.visto.no/radiohallingdal
+rock: http://shed-nelson.no-ip.net:8881/shed-nelson128.mp3
+skala: http://netradio.skala.fm:80/varde
+80summer: http://streams.80s80s.de/summerhits/mp3-192/
+---
+------
+=end
+fc=""; inblk=false; pastblk=true
+IO.foreach(__FILE__){|line| fc << line if inblk && pastblk; 
+	pastblk=false if /^\-\-\-\-\-\-/ =~line; inblk= /^=begin/ =~ line if not inblk;  } 
+
+pgs=YAML.load(fc)
+
+def syntax
+puts <<SYNTAXDOC    
+syntax: stream program
+stream -help
+stream -show
+SYNTAXDOC
+end
+
+if ARGV.length > 0 then
+    case (ARGV[0])
+        when '-help' then syntax
+        when '-show' then pgs.keys.each do |k| puts k end
+        else 
+            system("audacious "+ pgs[ARGV[0]]+" &") if pgs[ARGV[0]] != nil
+    end
+else
+   syntax
+end

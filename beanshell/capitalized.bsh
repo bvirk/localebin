@@ -1,0 +1,9 @@
+/**
+ * Capitalize a string. That means make the first character uppercase.
+ *
+ * @param s gets capitalized. s shall be of String or StringBuilder or any, 'has substring that returns a toString() able object, type.
+ * @return capitalized string
+ */
+String capitalized(Object s) {
+return s != null ? ""+s.substring(0,1).toUpperCase()+s.substring(1) : null;
+}

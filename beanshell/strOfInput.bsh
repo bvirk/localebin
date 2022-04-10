@@ -1,0 +1,9 @@
+String strOfInput(List choices) {
+	int ret = numOfInput(choices.toArray(new String[choices.size()])); 
+	return ret > 0 ? choices.get(ret-1) : null;
+}
+
+String strOfInput(String[] choices) {
+	int ret = numOfInput(choices); 
+	return ret > 0 ? choices[ret-1] : null;
+}

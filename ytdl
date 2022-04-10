@@ -1,0 +1,35 @@
+#!/bin/bash
+# download and play youtube video
+# syntax:
+#   ytdl youtube_url [format_code]
+url="${1##&}"
+downloaddir=/mnt/mcc/multimedia/video/play/
+player=/usr/bin/celluloid
+cd $downloaddir
+
+if [ "$#" -gt 1 ]; then
+	chosenFormat="-f $2"
+else
+	youtubeDlTmpFile=/tmp/youtube-dl-F-responce
+	echo getting video mode for $url
+	youtube-dl -F $url >$youtubeDlTmpFile
+	possFormatsInfo=`grep mp4 < $youtubeDlTmpFile |grep -v 'audio only'|grep -v 'video only'`
+	echo "$possFormatsInfo"
+	possFormats="`grep mp4 < $youtubeDlTmpFile |grep -v 'audio only'|grep -v 'video only'|sed 's/ .*//'`"
+	formats=($possFormats)
+	if [ "${#formats[@]}" -eq 1 ]; then
+	    chosenFormat="-f ${formats[0]}"
+	else
+        for i in "${!formats[@]}"; do
+            printf "%s) %s\n" "$i" "${formats[$i]}"
+        done
+        IFS= read -r mNum
+        if [[ $mNum =~ ^[0-9]+$ ]] && (( (mNum >= 0) && (mNum < "${#formats[@]}") )); then
+            chosenFormat="-f ${formats[$mNum]}"
+        else
+            echo "bad format choice"
+            exit
+        fi
+    fi
+fi
+youtube-dl --restrict-filenames $chosenFormat $url

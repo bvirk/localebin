@@ -1,0 +1,72 @@
+final String PAGESSETS = "pagessets/";
+final String DOCROOT = "/var/www/ba/domain/";
+final int DOCROOTSTARTPOS =	DOCROOT.length();
+final int SITEPAGESSTARTPOS =DOCROOTSTARTPOS+PAGESSETS.length();
+
+/**
+  Create classes for new command or page.
+  @param className is the command or page name
+  @param dir is also the namespace  
+  @param baseClassName is base class for a command or page
+  @param use adds a use declaration to a class ( trait)
+ */
+void savePhpIfNotExists(String className, String dir, String[] baseClassNames, String use) {
+	if (className == null)
+		return;
+	//p("save php class: "+className);
+	String fileN = DOCROOT+dir+"/"+className+".php";
+	//p(fileN);
+	String fileContent = 
+		"<?php\nnamespace bvirk\\"+dir+";\n\nclass "
+		+className+"\n";
+	for(String bcn : baseClassNames)
+		fileContent +="// extends "+ bcn+" {\n";
+	fileContent +=
+		  (use != null ? "\tuse "+use+";" : "")
+		+"\t//protected $jsFiles = [];\n"
+		+"\t//protected $cssFiles = [];\n"
+		+"\t//protected $jsAsMethods = [];\n"
+		+"\n}";
+	//p(fileContent);
+	if (!new File(fileN).exists())
+		toFile(fileN,fileContent);
+}
+
+/**
+ * Create md file in its absence
+ *
+ * @param fileName of possible existing md file in possible existing dir.
+ */
+void saveMdIfNotExixsting(String fileName) {
+	if (new File(fileName).exists())
+		return;
+	File dir= new File(dirname(fileName));
+	if (!dir.exists())
+		dir.mkdir();
+	toFile(fileName,"<?php return [ // >>>\n\t<<<EOMD\npage "+basename(fileName,true)+"\nEOMD];");
+}
+
+
+String editPage(String pageName) {
+		
+	int sPos=pageName.indexOf("/");
+	String curBufDirSlash = DOCROOT+PAGESSETS;
+
+	String className = sPos > 0 
+		? capitalized(pageName.substring(0,sPos))
+		: capitalized(pageName);
+	String fileToOpen = sPos > 0 ? curBufDirSlash+pageName+".md" : DOCROOT+PAGESSETS+className+".php";
+		
+	//p("curBufDirSlash "+curBufDirSlash);
+	//p("pageName       "+pageName      );
+	//p("sPos           "+sPos          );
+	//p("className      "+className     );
+	//p("isMDPage       "+(sPos > 0)    );
+	//p("fileToOpen     "+fileToOpen    );
+	if (sPos > 0) {
+		saveMdIfNotExixsting(curBufDirSlash+pageName.substring(0,sPos)+"/index.md");
+		saveMdIfNotExixsting(curBufDirSlash+pageName+".md");
+	} 
+	savePhpIfNotExists(className,rtrim(PAGESSETS,"/"),new String[] { "PageAware","StdLogoFontContacts"},null);
+	return fileToOpen;
+}

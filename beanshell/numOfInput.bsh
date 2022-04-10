@@ -1,0 +1,14 @@
+int numOfInput(String[] choices) {
+	int ret;
+	do {
+		int numch = 1;
+		p("\n0: escape");
+		for (String sel : choices) 
+			p(numch++ +": "+sel);
+		String line = System.console().readLine();
+		ret = line.matches("\\d+") 
+			? Integer.parseInt(line)
+			: -1;
+	} while (ret < 0 || ret > choices.length);
+	return ret;
+}

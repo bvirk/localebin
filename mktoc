@@ -1,0 +1,60 @@
+#!/opt/jdk1.8.0_202/bin/java bsh.Interpreter
+final String __FILENAME__ =System.getProperty("sun.java.command").replaceAll("^.+?\\s","").replaceAll("\\s.+$","");
+addClassPath(dirname(__FILENAME__)); 
+importCommands("/beanshell");
+globals();
+/**
+ * Makes toc.html with List of files which extension are among those given as argument - without argument .html files.
+ * Current directory and those inside, recursive, is searched
+ * The list is links. 
+ *
+ * syntax: mktoc [ext1 [ ext1 [ ext3 ...]]]
+ */   
+
+String devPreUrl = "file://";
+int cwdLen = userDirS.length();
+String [] extensions = {"html"};
+if (bsh.args.length > 0) {
+    if (bsh.args[0].equals("--help")) {
+        print("syntax: mktoc [ext1 [ ext1 [ ext3 ...]]]");
+        return;
+    }
+    extensions = bsh.args;
+}
+String title = "Toc: "+String.join(",",extensions);
+
+StringBuilder html = new StringBuilder();
+html
+   .append("<!DOCTYPE html>\n")
+   .append("<html>\n")
+   .append("<head>\n")
+   .append("<meta charset=\"UTF-8\">\n")
+   .append("<title>")
+   .append(title)
+   .append("</title>\n")
+   .append("</head>\n")
+   .append("<body>\n");
+    
+void addFiles(File loc, String ext) {
+    for (File f : loc.listFiles()) {
+        String fName = f.getName();
+        if (f.isDirectory() )
+            addFiles(f,ext);
+        else {
+            for (String ext : extensions) {
+                if (fName.endsWith("."+ext))
+                    html
+                        .append("<a href=\"")
+                        .append(devPreUrl)
+                        .append(f.getPath())
+                        .append("\">")
+                        .append(f.getPath().substring(cwdLen))
+                        .append("</a><br>\n");
+            }
+       }
+    }
+}
+
+addFiles(new File(userDir),".html");
+html.append("</body></html>");
+toFile(userDirS+"toc.html",html);

@@ -1,0 +1,12 @@
+#!/bin/bash
+# downloads and plays argument mp3 using audacious
+
+tempfile=/home/offline/cfa/mp3.mp3
+if [ $# -gt 0 ]; then
+    wget -O $tempfile $1
+fi
+if [ -f "$tempfile" ]; then
+    audacious $tempfile &
+else
+    echo "$tempfile don't exists."
+fi

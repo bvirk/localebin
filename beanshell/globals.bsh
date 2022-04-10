@@ -1,0 +1,16 @@
+String browser="firefox";
+String serverurl="http://ba";
+String userDir = System.getProperties().getProperty("user.dir");
+String userDirS = userDir+"/";
+String[] jarList = {
+	"rt=https://docs.oracle.com/javase/8/docs/api/,/opt/jdk1.8.0_202/jre/lib"
+	,"nashorn=https://docs.oracle.com/javase/8/docs/jdk/api/nashorn/,/opt/jdk1.8.0_202/jre/lib/ext"
+	,"jedit=file:///usr/local/share/jEdit/5.5.0/doc/api/,/usr/local/share/jEdit/5.5.0"
+	,"jsoup-1.11.3=https://jsoup.org/apidocs/,/home/bvirk/.jedit/jars"
+	,"bsh-2.0b4=http://www.beanshell.org/javadoc/,/opt/jdk1.8.0_202/jre/lib/ext"
+	};
+
+void p(Object mes) {
+	print(mes);
+}
+void globals() {}

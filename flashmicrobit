@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# copies argument to mounted microbit device
+# mounting is done in its absense - by use of command microbit, which this script depends on.
+# mime type text/x-hex is convenient associated this script - browser will the copy downloadet file to microbit device.
+# in xfce: applications->setting->mimetype editor->text/x-hex
+
+while [ `mount |  grep MICROBIT | wc -l` -ne 1 ] 
+do
+    microbit mount
+    sleep 1
+done
+cp $1 /media/bvirk/MICROBIT/

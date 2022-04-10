@@ -1,0 +1,64 @@
+//List jimport(String dontmat) {
+//	return asList("kort","korte","kortest");
+//}
+
+/**
+ *
+ * @return fixed list of jar files on some computer 
+ */
+List jars() {
+	List arr = new ArrayList();
+	for (String line : jarList) {
+		String[] kv = line.split("=");
+		arr.add(kv[1].split(",")[1]+"/"+kv[0]+".jar");
+	}
+	return arr;
+}
+
+/**
+ * Classes with given name in jar file.
+ *
+ * @param className the bare classname as eg. List
+ * @param jarfile to search for class name 
+ * @return list of basename prefixed full package name classes 
+ */
+List jimportJar(String className,String jarfile) {
+	List classes = new ArrayList();
+	if (!new File(jarfile).exists()) {
+		// statMes(jarfile+ " not found");
+		return classes;
+	}
+	String[] cmds = {"jar","-tf",jarfile};
+	Process proc = Runtime.getRuntime().exec(cmds); 
+	BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+	while ((line = br.readLine()) != null) {
+		if (line.matches(".+/"+className+"\\.class"))
+			classes.add(basename(jarfile,true)+": "+line);
+	}
+	br.close();
+	int retval;
+	try {
+		proc.waitFor();
+	} catch (InterruptedException e ) {
+		retval=127;
+	}	
+	if (retval == 0)
+		retval = proc.exitValue();
+	if (retval == 127)
+		classes.add("scriptNotFound: ");
+	return classes;
+} 
+
+
+/**
+ * Lists jars of classes with a give barename 
+ *
+ * @param className
+ * @return 
+ */
+List jimport(String className) {
+	List allClasses = new ArrayList(); 
+	for (String jar : jars())
+		allClasses.addAll(jimportJar(className,jar));
+	return allClasses;
+}

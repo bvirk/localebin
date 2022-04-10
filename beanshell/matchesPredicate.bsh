@@ -1,0 +1,6 @@
+bsh.XThis matchesPredicate(String patt) {
+	boolean test(String item) {
+		return item.matches(patt);
+	}
+	return this;
+}

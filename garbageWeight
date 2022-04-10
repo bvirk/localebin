@@ -1,0 +1,12 @@
+#! /bin/bash
+
+# append date prefixed, gram trailed argument as line to file - makes log af weights of garbage  
+
+if [ $# -ne 1 ] 
+then
+    echo "syntax:  gabageWeight weight
+
+where weight is i gram"
+    exit 1
+fi
+echo `date` $1 gram >> ~/documents/var/affald.txt

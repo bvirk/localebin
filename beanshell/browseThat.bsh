@@ -1,0 +1,3 @@
+void browseThat(String url) {
+	Runtime.getRuntime().exec(new String[]{browser,url}); 
+}

@@ -1,0 +1,10 @@
+#!/bin/bash
+uname2="$(stat --format '%U' "$1")"
+if [ $uname2 = "root" ]; then
+	sudo vim $1
+else
+	wmctrl -s0	
+#	jedit $1
+	code $1 &
+#	code $1  >/dev/null 2>&1
+fi

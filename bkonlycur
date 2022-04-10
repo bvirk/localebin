@@ -1,0 +1,12 @@
+#! /bin/bash
+# mirroring current directory only to ftp location using lftp.
+curdir=`pwd`
+remoteftp=eee/s14h
+scriptFile=/tmp/lftp.rsp
+echo open -u wp,adgang $remoteftp >$scriptFile
+relativeCurdir=${curdir#/}
+echo mirror -R --no-symlinks --no-recursion ${curdir##/*/}/ ${relativeCurdir%/*}/${curdir##/*/}/>>$scriptFile
+cd ../
+lftp -f $scriptFile 
+#pwd
+#cat $scriptFile 

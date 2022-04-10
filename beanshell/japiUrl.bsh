@@ -1,0 +1,8 @@
+String japiUrl(String jarKey) {
+	for (String line : jarList) {
+		String[] kv = line.split("=");
+		if (jarKey.equals(kv[0]))
+			return kv[1].split(",")[0];
+	}
+	return null;
+}

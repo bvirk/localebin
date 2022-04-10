@@ -1,0 +1,8 @@
+#!/bin/bash
+hedeup=`ip addr|grep 192.168.0.4|wc -l`
+if [ $hedeup = 1 ]; then
+	echo hede is allready up
+else
+	sudo ip addr add 192.168.0.4/24 dev enp2s0
+	sudo ip link set enp2s0 up
+fi

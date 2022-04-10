@@ -1,0 +1,34 @@
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+
+List readAllLines(File file) {
+	return Files.readAllLines(file.toPath(),Charset.forName("UTF-8"));
+}
+
+List readAllLines(String fileName) {
+	return readAllLines(new File(fileName));
+}
+List readAllLines(File file, bsh.XThis filter) {
+    ArrayList ret = new ArrayList();
+	for (String line : Files.readAllLines(file.toPath(),Charset.forName("UTF-8")))
+        if ( filter.test(line))
+            ret.add(line);
+    return ret;
+    //return asList("kort","korte");
+}
+
+List readAllLines(String fileName,  bsh.XThis filter) {
+	return readAllLines(new File(fileName), filter);
+}
+List readAllLines(File file, bsh.XThis filter, bsh.XThis mapper) {
+    ArrayList ret = new ArrayList();
+	for (String line : Files.readAllLines(file.toPath(),Charset.forName("UTF-8")))
+        if ( filter.test(line))
+            ret.add(mapper.apply(line));
+    return ret;
+    //return asList("kort","korte");
+}
+
+List readAllLines(String fileName,  bsh.XThis filter, bsh.XThis mapper) {
+	return readAllLines(new File(fileName), filter, mapper);
+}

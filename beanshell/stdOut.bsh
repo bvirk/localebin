@@ -1,0 +1,26 @@
+/**
+	Retrieving the stdout of a bash command.
+	@return list of lines of the bash command
+ **/
+List stdOut(String cmd) {
+	List lines = new LinkedList();
+	String[] cmds = new String[]{"/bin/bash","-c",cmd};
+	Process proc = Runtime.getRuntime().exec(cmds); 
+	BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+	while ((line = br.readLine()) != null) {
+		lines.add(line);
+	}
+	br.close();
+	int retval;
+	try {
+		proc.waitFor();
+	} catch (InterruptedException e ) {
+		retval=127;
+	}	
+	if (retval == 0)
+		retval = proc.exitValue();
+	if (retval == 127)
+		lines.add("Command not found");
+	return lines;
+
+}

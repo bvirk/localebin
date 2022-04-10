@@ -1,0 +1,7 @@
+#!/bin/bash
+# makes all filenames, given as arguments, lower case
+for var in "$@"
+do
+    lower=`echo "$var" | tr '[:upper:]' '[:lower:]'`
+    mv "$var" $lower
+done

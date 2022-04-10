@@ -1,0 +1,8 @@
+#!/bin/bash
+barename=${1%.mp4}
+if [ $barename != $1 ]; then
+	ffmpeg -i $1 -vn -c:a copy $barename.m4a
+else
+	echo $1 is not a mp4 file
+fi
+

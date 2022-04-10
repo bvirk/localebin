@@ -1,0 +1,12 @@
+#!/bin/sh
+# mirroring curent dir with subdirs to ftp dir, using lftp
+
+remoteftp=eee/s14h
+curdir=`pwd`
+scriptFile=/tmp/lftp.rsp
+echo open -u wp,adgang $remoteftp >$scriptFile
+relativeCurdir=${curdir#/}
+echo mirror -R --no-symlinks ${curdir##/*/}/ ${relativeCurdir%/*}/${curdir##/*/}/>>$scriptFile
+cd ../
+lftp -f $scriptFile 
+

@@ -1,0 +1,25 @@
+/**
+ * Things being possible an array or iterable, converted saved as a file in charset utf-8
+ *
+ * @param fileName to hold thing
+ * @param thing to be saved as file in line broken toString() occurrence
+ * @param filter to transfer each line to something
+ */
+void toFile(String fileName,Object thing,Object function) {
+	OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(fileName),"utf-8"); 
+	if (thing.getClass().isArray() || thing instanceof AbstractCollection )
+		for (Object line : thing)
+			osw.write(""+(null==function ? line : function.apply(line))+"\n");
+	else osw.write(""+(null==function ? thing : function.apply(thing)));
+	osw.close();
+}
+
+/**
+ * Things being possible an array or iterable saved as file in charset utf-8
+ *
+ * @param fileName to hold thing
+ * @param thing to be saved as file in line broken toString() occurrence
+ */
+void toFile(String fileName,Object thing) {
+	toFile(fileName,thing,null);
+}

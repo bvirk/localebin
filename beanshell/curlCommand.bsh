@@ -1,0 +1,37 @@
+/**
+ Calls theOut which uses curl to get an answer from server. The cmd and possible, space
+ delimited args are translated to url querystring format.
+ @return list of lines of the curl command
+ **/
+List curlCommand(String cmdAndArgs) {
+	final String curlCmd ="curl -s \""+serverurl+"/commands.php"; 
+	//return asList(curlCmd);
+	
+	String parms="";
+	String [] args = cmdAndArgs.replaceAll("\\s{2,}"," ").split(" ");
+	if (args[0].length() == 0)
+		return stdOut(curlCmd+"\"");
+	if (args.length > 1)  {
+		parms="&parms=";
+		for (int ac=1; ac < args.length; ac++)
+			parms += args[ac]+"+";
+		parms = parms.substring(0, (parms.length() - 1));
+	}
+	//p("Sending: "+curlCmd+"?cmd="+args[0]+parms+"\"");
+	return stdOut(curlCmd+"?cmd="+args[0]+parms+"\"");
+}
+List curlCommand(List args) {
+	final String curlCmd ="curl -s \""+serverurl+"/commands.php"; 
+	
+	String parms="";
+	if (args.size() == 0)
+		return stdOut(curlCmd+"\"");
+	if (args.size() > 1)  {
+		parms="&parms=";
+		for (int ac=1; ac < args.length; ac++)
+			parms += args[ac]+"+";
+		parms = parms.substring(0, (parms.length() - 1));
+	}
+	//p("Sending: "+curlCmd+"?cmd="+args[0]+parms+"\"");
+	return stdOut(curlCmd+"?cmd="+args[0]+parms+"\"");
+}

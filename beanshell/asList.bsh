@@ -1,0 +1,28 @@
+/**
+ * Beanshells absence of varargs motivated shortcut for Arrays.asList( ...
+ *
+ * @param ix is list items of type String
+ * @return List
+ */
+List asList(String i1) {
+	return Arrays.asList(new String[]{i1});
+}
+List asList(String i1,String i2) {
+	return Arrays.asList(new String[]{i1,i2});
+} 
+List asList(String i1,String i2,String i3) {
+	return Arrays.asList(new String[]{i1,i2,i3});
+} 
+List asList(String i1,String i2,String i3,String i4) {
+	return Arrays.asList(new String[]{i1,i2,i3,i4});
+} 
+List asList(String i1,String i2,String i3,String i4,String i5) {
+	return Arrays.asList(new String[]{i1,i2,i3,i4,i5});
+} 
+List asList(String[] strings) {
+	return Arrays.asList(strings);
+} 
+
+List asList(Object i1,Object i2) {
+	return new ArrayList(Arrays.asList(new Object[]{i1,i2}));
+}

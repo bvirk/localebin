@@ -1,0 +1,25 @@
+/**
+ * Removes all off trailing charaters from String
+ *
+ * @param str is subject for rtim
+ * @param allOf is a list charaters that repetitative is removed from end of str
+ * @return rtrim'ed String or null or empty string if rtrim was called with that.
+ */
+String rtrim(String str, String allOf) {
+	if (str == null || str.length() == 0)
+		return str;
+	do {
+		boolean someRemoved = false;
+		for (char ch : allOf)
+			if (str.charAt(str.length()-1) == ch) {
+				str = str.substring(0,str.length()-1);
+				someRemoved=true;
+			}
+		if (!someRemoved || str.length() == 0)
+			break;
+	} while (true);
+	return str;
+}
+String rtrim(String str) {
+	return rtrim(str," \t\r\n");
+}

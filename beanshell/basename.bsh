@@ -1,0 +1,23 @@
+/**
+ * As the unix counterpart with a second modified second option
+ * to remove any extension
+ 
+ * @param pathName
+ * @param withOutExtension must true
+ * @return filename without either path or extension
+ */
+String basename(String pathName,boolean withOutExtension) {
+	String bwe = pathName.replaceAll("^.+/","");
+	return withOutExtension
+		? bwe.replaceAll("\\.[^\\.]+$","")
+		: bwe;
+}
+/**
+ * As the unix counterpart - try it in console
+ *
+ * @param pathName 
+ * @return filename without path, but With extension 
+ */
+String basename(String pathName) {
+	return pathName.replaceAll(".+/","");
+}

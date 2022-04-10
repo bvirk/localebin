@@ -1,0 +1,9 @@
+/**
+ * As the unix counterpart - try it in console
+ *
+ * @param fileName
+ * @return trailing slash obmitted path to file
+ */
+String dirname(String fileName) {
+	return fileName.replaceAll("/[^/]*$","");
+}
