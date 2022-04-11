@@ -1,5 +1,5 @@
 #!/bin/bash
-# downloads and plays argument mp3 using audacious
+# downloads as mp3 tempfile and plays it using audacious
 
 tempfile=/home/offline/cfa/mp3.mp3
 if [ $# -gt 0 ]; then

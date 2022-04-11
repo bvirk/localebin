@@ -1,4 +1,5 @@
 #!/bin/bash
+# convert .mp4 to .m4a
 barename=${1%.mp4}
 if [ $barename != $1 ]; then
 	ffmpeg -i $1 -vn -c:a copy $barename.m4a

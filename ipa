@@ -4,18 +4,45 @@ addClassPath(dirname(__FILENAME__));
 importCommands("/beanshell");
 globals();
 
-void syntax() {
-	print("ipa function parameter");
-}
-void what() {
-	p(
-		 "functions is one off\n"
-		+"edit pages[/page]\n"
-		);
-}
+/**
+ * ipa is both the name of the php microframework http://github.com/bvirk/ipa and this tool.
+ * It is not dependt on php being installed, but creates files through website directories 
+ * being NFS mounted, and access through curl
+ * 
+ * globals.bsh has variable serverurl that is the http address
+ * DOCROOT in local filesystem is assigned in top og editpage.bsh
+ * 
+ * function edit 
+ * =============
+ * jumps to page optionally creating it. It can be 
+ * 
+ *   ipa edit foo
+ * 
+ * for a pages class, or
+ * 
+ *   ipa edit foo/bar
+ * 
+ * for a markdown page 'bar' of a set of pages foo.
+ * 
+ * function cmd
+ * ============
+ * 
+ * is for testing php, not the website but console output php.
+ * 
+ *   ipa cmd play
+ * 
+ * instantiates Play and runs Play->run(). Play.php lays in commands/Play.php and has
+ * namespace \bvirk\commands\Play
+ * 
+ * The output of Play->run() becomes the output to terminal console.
+ */
+
 if (bsh.args.length < 2) {
-	syntax();
-	what();
+	p(	"ipa function parameter\n"
+		+"functions is one off\n"
+		+"edit pages[/page]\n"
+		+"cmd command\n"
+		);
 	return;
 }
 String parm1 =bsh.args[1];
@@ -27,9 +54,7 @@ case "edit":
 	Runtime.getRuntime().exec(new String[]{"/bin/bash","-c","uaed "+editPage(parm1)});
 	break;
 case "cmd":
-	List l = curlCommand(args);
-	p(String.join("\n",l));
-	//p("command " + parm1);
+	p(String.join("\n",curlCommand(args)));
 	break;
 default:
 	p(bsh.args[0]+" what?");

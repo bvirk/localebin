@@ -1,4 +1,6 @@
 #!/bin/bash
+# invokes mypdf with called file argument for creating a pdf.
+# subsequent a viewer opens the pdf 
 if (( $# != 1 )); then
 exit 0
 fi

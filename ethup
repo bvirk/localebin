@@ -1,4 +1,7 @@
 #!/bin/bash
+# assign ip address to ethernet interface that is disbled in network manger.
+# disabling in network manger was required because something forced it to
+# be default gateway in flavour of usb connected mobile broadband.
 hedeup=`ip addr|grep 192.168.0.4|wc -l`
 if [ $hedeup = 1 ]; then
 	echo hede is allready up

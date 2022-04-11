@@ -33,5 +33,5 @@ List curlCommand(List args) {
 		parms = parms.substring(0, (parms.length() - 1));
 	}
 	//p("Sending: "+curlCmd+"?cmd="+args[0]+parms+"\"");
-	return stdOut(curlCmd+"?cmd="+args[0]+parms+"\"");
+	return stdOut(curlCmd+"?cmd="+args.get(0)+parms+"\"");
 }

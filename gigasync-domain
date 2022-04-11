@@ -1,8 +1,5 @@
 #!/bin/bash
 # synchronise wan ftp dir using lftp
-# echo following ust be edited:
-# echo 2.sourcedir
-# echo 3.dont upload cgi-php  stuff
 
 sourceparentdir=/var/www/ipa/
 sourcedir=domain/

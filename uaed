@@ -1,4 +1,16 @@
 #!/bin/bash
+# This script is invoked by application that calls environment variable EDITOR
+# a typcall application would be a file manager or an system mime type association
+# editor is ownership depent
+#
+# for user root it is 'sudo vim', so a terminal behind calling app must exists. 
+# (like in midnight commander, in a terminal)
+#
+# for other users it is Microsoft vscode which binary is 'code'
+#
+# if the folder of the file has a 'folder named'.code-workspace file, the command line
+# to code contains both this and the file in request.
+
 uname2="$(stat --format '%U' "$1")"
 if [ $uname2 = "root" ]; then
 	sudo vim $1

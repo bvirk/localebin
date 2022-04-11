@@ -3,6 +3,42 @@ final String __FILENAME__ =System.getProperty("sun.java.command").replaceAll("^.
 addClassPath(dirname(__FILENAME__)); 
 importCommands("/beanshell");
 globals();
+/** 
+ck - an abbrivation for cyberkiss
+One or few kisses context for some cyber information. ck invokes the browser
+browser is a variable in beanshell file beanshell/globals.bsh
+
+ck without arguments shows the resouces available - which is actual web pages.
+The address of many web pages forms an api - the 'k' in ck is a LOL likeable
+name for the parameters of an api call.
+
+It is system independt for all resources besides this one:
+
+    japi
+
+which looks up a java 8 package name of a class in a list of jar files and
+invokes a jar file related local or remote html file.
+
+global.bsh contain an array of Strings: jarList. One of the is
+
+  rt=https://docs.oracle.com/javase/8/docs/api/,/opt/jdk1.8.0_202/jre/lib
+
+Calling this
+ 
+   ck japi Buffer
+
+Brings up a list where one of the items for selection is
+
+  rt: java/nio/Buffer.class
+
+showing that /opt/jdk1.8.0_202/jre/lib/rt.jar contains class java/nio/Buffer. If other jar files, in jarList
+files contains one or more classes named Buffer, the are added to the list for  choice of
+selection.  
+
+Note https:// - it can also be file:/// for local api's. Equality besides home compiled documentation and
+pro is a feature  of the java language.
+
+**/
 
 bsh.XThis splitItemAndAfterMap(String separator, int retNumber, String indexOfParm) {
 	String apply(String item) {
