@@ -1,0 +1,12 @@
+#!/bin/bash
+# adds a `pwd`.code-workspace file to current directory
+# the content is the same as the content of # ~/bin/bin.code-workspace 
+pwdabs=`pwd`
+thisappdir=`dirname $0`
+pwdbase=`basename $pwdabs`
+workspace=${pwdbase}.code-workspace
+if [ -f "$workspace" ]; then
+    echo "$workspace allready exists"
+else
+    cat "${thisappdir}/bin.code-workspace" >$workspace
+fi
