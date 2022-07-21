@@ -1,0 +1,7 @@
+#!/bin/bash
+passLength=16
+re=^[0-9]+$
+if [[ $1 =~ $re ]]; then
+    passLength=$1
+fi
+LC_ALL=C tr -dc A-Za-z0-9_ < /dev/urandom | head -c $passLength | xargs

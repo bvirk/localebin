@@ -1,0 +1,2 @@
+#!/bin/sh
+ant -e run -Darg0=$1 -Darg1=$2 -Darg2=$3 -Darg3=$4 

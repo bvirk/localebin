@@ -26,7 +26,8 @@ void savePhpIfNotExists(String className, String dir, String[] baseClassNames, S
 		+"\t//protected $jsFiles = [];\n"
 		+"\t//protected $cssFiles = [];\n"
 		+"\t//protected $jsAsMethods = [];\n"
-		+"\n}";
+		+"\n}"
+		+"\tpublic static $menuNames = [];\n";
 	//p(fileContent);
 	if (!new File(fileN).exists())
 		toFile(fileN,fileContent);
@@ -52,6 +53,8 @@ String editPage(String pageName) {
 	int sPos=pageName.indexOf("/");
 	String curBufDirSlash = DOCROOT+PAGESSETS;
 
+	if (!new File(curBufDirSlash).exists())
+		return null;
 	String className = sPos > 0 
 		? capitalized(pageName.substring(0,sPos))
 		: capitalized(pageName);

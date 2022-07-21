@@ -11,8 +11,9 @@
 # if the folder of the file has a 'folder named'.code-workspace file, the command line
 # to code contains both this and the file in request.
 
-uname2="$(stat --format '%U' "$1")"
-if [ $uname2 = "root" ]; then
+#uname2="$(stat --format '%U' "$1")"
+#if [ $uname2 = "root" ]; then
+if [ 2 = 1 ]; then
 	sudo vim $1
 else
 	wmctrl -s0	
@@ -21,9 +22,9 @@ else
 	pwdbase=`basename $pwdabs`
 	workspace="$pwdbase.code-workspace"
 	if [ -f "$workspace" ]; then
-		code "$workspace $1 &"
+		code $workspace $1 &
 	else
-		code "$1 &"
+		code $1 &
 	fi
 #	code $1  >/dev/null 2>&1
 fi
