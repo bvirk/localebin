@@ -1,3 +1,13 @@
+
+void ensurePath(File p) {
+	File pf = p.getParentFile();
+	if (pf != null && pf.exists() == false) {
+		ensurePath(pf);
+		pf.mkdir();
+	}
+}
+
+
 /**
  * Things being possible an array or iterable, converted saved as a file in charset utf-8
  *
@@ -6,6 +16,7 @@
  * @param filter to transfer each line to something
  */
 void toFile(String fileName,Object thing,Object function) {
+	ensurePath(new File(fileName));
 	OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(fileName),"utf-8"); 
 	if (thing.getClass().isArray() || thing instanceof AbstractCollection )
 		for (Object line : thing)
@@ -13,6 +24,7 @@ void toFile(String fileName,Object thing,Object function) {
 	else osw.write(""+(null==function ? thing : function.apply(thing)));
 	osw.close();
 }
+
 
 /**
  * Things being possible an array or iterable saved as file in charset utf-8

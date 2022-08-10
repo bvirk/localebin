@@ -26,8 +26,7 @@ void savePhpIfNotExists(String className, String dir, String[] baseClassNames, S
 		+"\t//protected $jsFiles = [];\n"
 		+"\t//protected $cssFiles = [];\n"
 		+"\t//protected $jsAsMethods = [];\n"
-		+"\n}"
-		+"\tpublic static $menuNames = [];\n";
+		+"\n}";
 	//p(fileContent);
 	if (!new File(fileN).exists())
 		toFile(fileN,fileContent);
@@ -45,20 +44,22 @@ void saveMdIfNotExixsting(String fileName) {
 	if (!dir.exists())
 		dir.mkdir();
 	toFile(fileName,"<?php return [ // >>>\n\t<<<EOMD\npage "+basename(fileName,true)+"\nEOMD];");
+	//p("saving: "+fileName);
 }
 
 
 String editPage(String pageName) {
 		
-	int sPos=pageName.indexOf("/");
+	int fPos=pageName.indexOf("/");
+	int lPos=pageName.lastIndexOf("/");
 	String curBufDirSlash = DOCROOT+PAGESSETS;
 
 	if (!new File(curBufDirSlash).exists())
 		return null;
-	String className = sPos > 0 
-		? capitalized(pageName.substring(0,sPos))
+	String className = fPos > 0 
+		? capitalized(pageName.substring(0,fPos))
 		: capitalized(pageName);
-	String fileToOpen = sPos > 0 ? curBufDirSlash+pageName+".md" : DOCROOT+PAGESSETS+className+".php";
+	String fileToOpen = fPos > 0 ? curBufDirSlash+pageName+".md" : DOCROOT+PAGESSETS+className+".php";
 		
 	//p("curBufDirSlash "+curBufDirSlash);
 	//p("pageName       "+pageName      );
@@ -66,9 +67,11 @@ String editPage(String pageName) {
 	//p("className      "+className     );
 	//p("isMDPage       "+(sPos > 0)    );
 	//p("fileToOpen     "+fileToOpen    );
-	if (sPos > 0) {
-		saveMdIfNotExixsting(curBufDirSlash+pageName.substring(0,sPos)+"/index.md");
+	if (fPos > 0) {
+		saveMdIfNotExixsting(curBufDirSlash+pageName.substring(0,lPos)+"/index.md");
+		//p("index: "+curBufDirSlash+pageName.substring(0,lPos)+"/index.md");
 		saveMdIfNotExixsting(curBufDirSlash+pageName+".md");
+		//p("edit: "+curBufDirSlash+pageName+".md");
 	} 
 	savePhpIfNotExists(className,rtrim(PAGESSETS,"/"),new String[] { "PageAware","StdLogoFontContacts"},null);
 	return fileToOpen;

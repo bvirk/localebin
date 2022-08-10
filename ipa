@@ -53,7 +53,7 @@ switch (bsh.args[0]) {
 case "edit":
 	String file2open = editPage(parm1);
 	if (file2open != null)
-		Runtime.getRuntime().exec(new String[]{"/bin/bash","-c","uaed "+file2open});
+		Runtime.getRuntime().exec(new String[]{"/bin/bash","-c","ced "+file2open});
 	else
 		p("web dir didn't exists - perhaps not mounted");
 	break;
