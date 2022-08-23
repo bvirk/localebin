@@ -1,0 +1,4 @@
+aspellconf=~/.aspell.conf
+echo lang da >$aspellconf
+echo encoding utf-8 >>$aspellconf
+ced $1
