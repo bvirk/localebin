@@ -1,5 +1,6 @@
 final String PAGESSETS = "pagessets/";
 final String DOCROOT = "/var/www/ba/domain/";
+final String defaultLanguage="da";
 final int DOCROOTSTARTPOS =	DOCROOT.length();
 final int SITEPAGESSTARTPOS =DOCROOTSTARTPOS+PAGESSETS.length();
 
@@ -52,6 +53,14 @@ String editPage(String pageName) {
 		
 	int fPos=pageName.indexOf("/");
 	int lPos=pageName.lastIndexOf("/");
+	if (fPos != -1 && fPos == lPos) {
+		//p("pagename was "+pageName);
+		pageName = pageName.substring(0,fPos+1)+defaultLanguage+pageName.substring(fPos);
+		//p("pagename became "+pageName);
+		//p("lPos was "+lPos);
+		lPos += defaultLanguage.length();
+		//p("lPos became "+lPos);
+	}
 	String curBufDirSlash = DOCROOT+PAGESSETS;
 
 	if (!new File(curBufDirSlash).exists())
@@ -68,10 +77,8 @@ String editPage(String pageName) {
 	//p("isMDPage       "+(sPos > 0)    );
 	//p("fileToOpen     "+fileToOpen    );
 	if (fPos > 0) {
-		saveMdIfNotExixsting(curBufDirSlash+pageName.substring(0,lPos)+"/index.md");
-		//p("index: "+curBufDirSlash+pageName.substring(0,lPos)+"/index.md");
+		saveMdIfNotExixsting(curBufDirSlash+pageName.substring(0,lPos+1)+"/index.md");
 		saveMdIfNotExixsting(curBufDirSlash+pageName+".md");
-		//p("edit: "+curBufDirSlash+pageName+".md");
 	} 
 	savePhpIfNotExists(className,rtrim(PAGESSETS,"/"),new String[] { "PageAware","StdLogoFontContacts"},null);
 	return fileToOpen;
