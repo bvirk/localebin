@@ -1,1 +1,1 @@
-echo `date "+%y%m%d%k%M"` "$@" >>~/documents/var/elfrb
+echo `date "+%y%m%d%H%M"` "$@" >>~/documents/var/elfrb
