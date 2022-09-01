@@ -6,7 +6,7 @@
         {
             "label": "php function",
             "type": "shell",
-            "command": "ck phpf ${selectedText}"
+            "command": "~/bin/ck phpf ${selectedText}"
             
         },
         {
