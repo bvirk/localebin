@@ -2,7 +2,9 @@
 # download a mp3 file using wget
 if [[ $# -lt 2 ]]; then
 	echo syntax: `basename $0` filename url
-	echo filename is without .mp3 extension 
+	echo filename is without .mp3 extension
+	exit 0
 else
 	wget -O "$1.mp3" "$2"
+	audacious "$1.mp3" &
 fi
