@@ -1,0 +1,11 @@
+#!/bin/bash
+mkpdfdir=~/bin/makepdf
+basename=`basename  $1`
+basenamewoe=${basename%.*}
+cp $1 "$mkpdfdir/doc.txt"
+cwd=`pwd`
+cd $mkpdfdir
+make
+cp doc.pdf "$cwd/$basenamewoe.pdf"
+cd -
+xreader $basenamewoe.pdf

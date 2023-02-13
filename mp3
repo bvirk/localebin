@@ -6,5 +6,7 @@ if [[ $# -lt 2 ]]; then
 	exit 0
 else
 	wget -O "$1.mp3" "$2"
+fi
+if [[ $# = 2 ]]; then
 	audacious "$1.mp3" &
 fi
