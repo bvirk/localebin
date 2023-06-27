@@ -1,0 +1,4 @@
+#! /bin/bash
+# mounts a specifik flashcard (canon powershot g2) to a specific mount point
+sudo mount --uuid 3B55-3B91 /media/bvirk/cfcard/ -o umask=000
+

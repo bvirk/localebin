@@ -3,7 +3,7 @@
 # a typcall application would be a file manager or an system mime type association
 # editor is ownership depent
 #
-wmctrl -s0
+#wmctrl -s2
 #jedit $1
 pwdabs=`pwd`
 pwdbase=`basename $pwdabs`

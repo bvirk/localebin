@@ -1,0 +1,4 @@
+#! /bin/bash
+# command which name aliases a specific mount point and unmount the device attached   
+sudo umount /media/bvirk/cfcard
+

@@ -1,5 +1,5 @@
 String browser="firefox";
-String serverurl="http://da.ba";
+String serverurl="http://n.sh";
 String userDir = System.getProperties().getProperty("user.dir");
 String userDirS = userDir+"/";
 String[] jarList = {

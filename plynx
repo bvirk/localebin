@@ -1,0 +1,7 @@
+#!/bin/bash
+# markdown viewer using lynx
+if [[ -f $1 ]]; then
+    pandoc $1 |lynx -stdin
+else
+    echo not a markdown file
+fi

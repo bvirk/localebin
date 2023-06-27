@@ -5,7 +5,7 @@ importCommands("/beanshell");
 globals();
 
 /**
- * ipa is both the name of the php microframework http://github.com/bvirk/ipa and this tool.
+ * hp is a command utility to create files and run commands in the php framework HocusPocus.
  * It is not dependt on php being installed, but creates files through website directories 
  * being NFS mounted, and access through curl
  * 
@@ -16,11 +16,11 @@ globals();
  * =============
  * jumps to page optionally creating it. It can be 
  * 
- *   ipa edit foo
+ *   hp edit foo
  * 
  * for a pages class, or
  * 
- *   ipa edit foo/bar
+ *   hp edit foo/bar
  * 
  * for a markdown page 'bar' of a set of pages foo.
  * 
@@ -29,7 +29,7 @@ globals();
  * 
  * is for testing php, not the website but console output php.
  * 
- *   ipa cmd play
+ *   hp cmd play
  * 
  * instantiates Play and runs Play->run(). Play.php lays in commands/Play.php and has
  * namespace \bvirk\commands\Play
@@ -38,7 +38,7 @@ globals();
  */
 
 if (bsh.args.length < 2) {
-	p(	"ipa function parameter\n"
+	p(	"hp function parameter\n"
 		+"functions is one off\n"
 		+"edit pages[/page]\n"
 		+"cmd command\n"
@@ -51,11 +51,16 @@ for (int i=1; i< bsh.args.length; i++)
 	args.add(bsh.args[i]);
 switch (bsh.args[0]) {
 case "edit":
+    //p(parm1);
 	String file2open = editPage(parm1);
+    // if (file2open != null)
+    //     p("file to open: "+file2open);
+    // else
+    //     p("null returned");
 	if (file2open != null)
-		Runtime.getRuntime().exec(new String[]{"/bin/bash","-c","ced "+file2open});
+	    Runtime.getRuntime().exec(new String[]{"/bin/bash","-c","ced "+file2open});
 	else
-		p("web dir didn't exists - perhaps not mounted");
+	    p("web dir didn't exists - perhaps not mounted");
 	break;
 case "cmd":
 	p(String.join("\n",curlCommand(args)));

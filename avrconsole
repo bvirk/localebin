@@ -1,0 +1,18 @@
+#!/bin/bash
+# Used as a second console output window to a console output program
+# In program reading from arduino Serial without interrupting spelling commands to send. 
+#
+# this script is made to be executed by a starting terminal window, with the command:
+#   gnome-terminal -- avrconsole
+# keep reading from pipe /tmp/fromavr until secret word is recieved, and then the terminal window will close. 
+cd /tmp
+while true
+do
+    if read -s word; then
+        if [ "$word" = "kill-0krtcZuVfHRdGjuF" ]; then
+            break;
+        fi
+        echo $word
+    fi
+done < fromavr
+sleep 3

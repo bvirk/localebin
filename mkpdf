@@ -1,8 +1,0 @@
-#!/bin/bash
-# utility to make pdf from text files using make and pdfbox
-# executing a symbolic link to this file name like a dir in dir pdfTexts of cwd cretates  doc.pdf and opens it using xreader
-pdfText=`basename $0`
-cp pdfTexts/$pdfText/* ./
-make
-rm *txt
-xreader doc.pdf

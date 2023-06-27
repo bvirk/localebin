@@ -1,0 +1,3 @@
+#/bin/bash
+# mount specific device (HTC Phone) to specific mount point
+sudo mount --uuid 3564-150E /media/bvirk/phone/ -o umask=000

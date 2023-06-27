@@ -1,8 +1,15 @@
-final String PAGESSETS = "pagessets/";
-final String DOCROOT = "/var/www/ba/domain/";
+//final String PAGESSETS = "pages/";
+final String CLASSDIR = "pages/";
+final String BODYDIR = "data/";
+final String DOCROOT = "/var/www/nsh/domain/";
 final String defaultLanguage="da";
+final String otherLanguage="en";
+final String defaultMDScheme = "\"<div class='auto80'>#md#</div>\",\n";
 final int DOCROOTSTARTPOS =	DOCROOT.length();
-final int SITEPAGESSTARTPOS =DOCROOTSTARTPOS+PAGESSETS.length();
+final int SITEBODYSTARTPOS =DOCROOTSTARTPOS+BODYDIR.length();
+final int SITECLASSSTARTPOS =DOCROOTSTARTPOS+CLASSDIR.length();
+
+//final int SITEPAGESSTARTPOS =DOCROOTSTARTPOS+PAGESSETS.length();
 
 /**
   Create classes for new command or page.
@@ -11,24 +18,23 @@ final int SITEPAGESSTARTPOS =DOCROOTSTARTPOS+PAGESSETS.length();
   @param baseClassName is base class for a command or page
   @param use adds a use declaration to a class ( trait)
  */
-void savePhpIfNotExists(String className, String dir, String[] baseClassNames, String use) {
-	if (className == null)
-		return;
-	//p("save php class: "+className);
-	String fileN = DOCROOT+dir+"/"+className+".php";
-	//p(fileN);
-	String fileContent = 
-		"<?php\nnamespace bvirk\\"+dir+";\n\nclass "
-		+className+"\n";
-	for(String bcn : baseClassNames)
-		fileContent +="// extends "+ bcn+" {\n";
+void savePhpIfNotExists(String className, String dir, String baseClassName, String use) {
+	String fileN = dir+className+".php";
+    int nsPos=dir.indexOf("pages/");
+    String fileContent = 
+		"<?php\nnamespace " + dir.substring(nsPos,dir.length()-1).replace('/','\\')  +  ";\n\nclass "
+		+className+" extends " + baseClassName +"{\n";
+	//for(String bcn : baseClassNames)
+	//	fileContent +="// extends "+ bcn+" {\n";
 	fileContent +=
 		  (use != null ? "\tuse "+use+";" : "")
 		+"\t//protected $jsFiles = [];\n"
 		+"\t//protected $cssFiles = [];\n"
 		+"\t//protected $jsAsMethods = [];\n"
 		+"\n}";
-	//p(fileContent);
+	//p("save, if not existing, php class: "+fileN+"\nwith content:\n");
+    //p(fileContent);
+    //return;
 	if (!new File(fileN).exists())
 		toFile(fileN,fileContent);
 }
@@ -41,45 +47,49 @@ void savePhpIfNotExists(String className, String dir, String[] baseClassNames, S
 void saveMdIfNotExixsting(String fileName) {
 	if (new File(fileName).exists())
 		return;
-	File dir= new File(dirname(fileName));
-	if (!dir.exists())
-		dir.mkdir();
-	toFile(fileName,"<?php return [ // >>>\n\t<<<EOMD\npage "+basename(fileName,true)+"\nEOMD];");
+	//File dir= new File(dirname(fileName));
+	//if (!dir.exists())
+	//	dir.mkdir();
+	toFile(fileName,"<?php return ["+ defaultMDScheme + "\t<<<EOMD\npage "+basename(fileName,true)+"\nEOMD];");
 	//p("saving: "+fileName);
 }
 
 
 String editPage(String pageName) {
-		
-	int fPos=pageName.indexOf("/");
+	//if (fPos != -1 && fPos == lPos) {
+	//	//p("pagename was "+pageName);
+	//	pageName = pageName.substring(0,fPos+1)+defaultLanguage+pageName.substring(fPos);
+	//	//p("pagename became "+pageName);
+	//	//p("lPos was "+lPos);
+	//	lPos += defaultLanguage.length();
+	//	//p("lPos became "+lPos);
+	//}
+    if (pageName.startsWith(otherLanguage+"/")==false && pageName.startsWith(defaultLanguage+"/")==false)
+        pageName = defaultLanguage +"/"+pageName;
+    int fPos=pageName.indexOf("/");
 	int lPos=pageName.lastIndexOf("/");
-	if (fPos != -1 && fPos == lPos) {
-		//p("pagename was "+pageName);
-		pageName = pageName.substring(0,fPos+1)+defaultLanguage+pageName.substring(fPos);
-		//p("pagename became "+pageName);
-		//p("lPos was "+lPos);
-		lPos += defaultLanguage.length();
-		//p("lPos became "+lPos);
-	}
-	String curBufDirSlash = DOCROOT+PAGESSETS;
-
-	if (!new File(curBufDirSlash).exists())
+	int cPos =pageName.substring(0,lPos).lastIndexOf("/");   
+	String bodyDirSlash = DOCROOT+BODYDIR;
+    String classDirSlash = DOCROOT+CLASSDIR;
+    
+	if (!new File(bodyDirSlash).exists())
 		return null;
-	String className = fPos > 0 
-		? capitalized(pageName.substring(0,fPos))
-		: capitalized(pageName);
-	String fileToOpen = fPos > 0 ? curBufDirSlash+pageName+".md" : DOCROOT+PAGESSETS+className+".php";
-		
-	//p("curBufDirSlash "+curBufDirSlash);
-	//p("pageName       "+pageName      );
-	//p("sPos           "+sPos          );
-	//p("className      "+className     );
-	//p("isMDPage       "+(sPos > 0)    );
-	//p("fileToOpen     "+fileToOpen    );
-	if (fPos > 0) {
-		saveMdIfNotExixsting(curBufDirSlash+pageName.substring(0,lPos+1)+"/index.md");
-		saveMdIfNotExixsting(curBufDirSlash+pageName+".md");
-	} 
-	savePhpIfNotExists(className,rtrim(PAGESSETS,"/"),new String[] { "PageAware","StdLogoFontContacts"},null);
-	return fileToOpen;
+
+	if (fPos>0) {
+        String fileToOpen = bodyDirSlash+pageName+".md";
+        if (pageName.endsWith("/index") == false)
+            saveMdIfNotExixsting(bodyDirSlash+pageName.substring(0,lPos)+"/index.md");
+        savePhpIfNotExists(
+             pageName.substring(cPos+1,cPos+2).toUpperCase()+pageName.substring(cPos+2,lPos)
+            ,classDirSlash+pageName.substring(0,cPos+1)
+            ,"\\pages\\StdMenu"
+            ,null
+        );
+        if (!new File(fileToOpen).exists())
+            toFile(fileToOpen,"<?php return ["+ defaultMDScheme 
+                + "\t<<<EOMD\npage "+basename(fileToOpen,true)+"\nEOMD];");
+        return fileToOpen;
+    }
+    return null;
+    
 }

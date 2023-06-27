@@ -1,12 +1,19 @@
 #!/bin/bash
 # download a mp3 file using wget
+re='^[0-9]+$'
+limitrate=60
+if  [[ $3 =~ $re ]] ; then
+   limitrate=$3
+fi
+
+cd /home/offline/cfa
 if [[ $# -lt 2 ]]; then
 	echo syntax: `basename $0` filename url
 	echo filename is without .mp3 extension
 	exit 0
 else
-	wget -O "$1.mp3" "$2"
+	wget "--limit-rate=${limitrate}k" -O "$1.mp3" "$2"
 fi
-if [[ $# = 2 ]]; then
-	audacious "$1.mp3" &
+if [ $# = 2 ] || [  $# = 4 ]; then
+	xdg-open "$1.mp3" &
 fi
