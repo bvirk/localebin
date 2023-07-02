@@ -1,0 +1,14 @@
+#/bin/bash
+# Used for opening local (mounted) file to edit written by a brwowser
+
+# get filename being content of ~/Downloads/filetoedit.txt
+frombrowserfile=/var/www/nsh/domain/config/filetoedit.txt
+if ! [ -f "$frombrowserfile" ]; then
+    echo "$frombrowserfile don't exists"
+    exit
+fi
+filetoedit=$(cat $frombrowserfile)
+##rm $frombrowserfile
+ced $filetoedit
+
+# and ~/Downloads/filetoedit.txt is subse
