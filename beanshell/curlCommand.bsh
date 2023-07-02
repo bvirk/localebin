@@ -3,35 +3,19 @@
  delimited args are translated to url querystring format.
  @return list of lines of the curl command
  **/
-List curlCommand(String cmdAndArgs) {
-	final String curlCmd ="curl -s \""+serverurl+"/commands.php"; 
-	//return asList(curlCmd);
-	
-	String parms="";
-	String [] args = cmdAndArgs.replaceAll("\\s{2,}"," ").split(" ");
-	if (args[0].length() == 0)
-		return stdOut(curlCmd+"\"");
-	if (args.length > 1)  {
-		parms="&parms=";
-		for (int ac=1; ac < args.length; ac++)
-			parms += args[ac]+"+";
-		parms = parms.substring(0, (parms.length() - 1));
-	}
-	//p("Sending: "+curlCmd+"?cmd="+args[0]+parms+"\"");
-	return stdOut(curlCmd+"?cmd="+args[0]+parms+"\"");
-}
+
 List curlCommand(List args) {
-	final String curlCmd ="curl -s \""+serverurl+"/commands.php"; 
+	final String curlCmd ="curl -s \""+serverurl+"/da/plaincontent"; 
 	
-	String parms="";
-	if (args.size() == 0)
-		return stdOut(curlCmd+"\"");
+	parms="";
 	if (args.size() > 1)  {
-		parms="&parms=";
-		for (int ac=1; ac < args.length; ac++)
-			parms += args[ac]+"+";
+        parms="/";
+		for (int ac=1; ac < args.size(); ac++)
+			parms += args.get(ac)+";";
 		parms = parms.substring(0, (parms.length() - 1));
-	}
-	//p("Sending: "+curlCmd+"?cmd="+args[0]+parms+"\"");
-	return stdOut(curlCmd+"?cmd="+args.get(0)+parms+"\"");
+	} else
+    //List ret = new ArrayList();
+    //ret.add("Sending: "+curlCmd+"/"+args.get(0)+parms+"\"");
+    //return ret;
+	return stdOut(curlCmd+"/"+args.get(0)+parms+"\"");
 }
