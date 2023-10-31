@@ -1,0 +1,12 @@
+#! /usr/bin/awk -f
+# Filtered view of lines and timestamp where items 2-4 is removed
+# based on field seperator being ']' - args to this script being -F ] -v withref=no|yes
+{ 
+    time=substr($1,13,8);
+    if (withref == "no") {
+        print time,gensub(/referer.+$/,"","g",$5);
+    } else {
+        print time,$5;
+    }
+}       
+

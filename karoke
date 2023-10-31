@@ -2,7 +2,7 @@
 # utility to play audio files using audacious
 # executing a symbolic link to this file name like a tgz file in karokedir, plays the inside sound.mp3 and shows the lyrics 
 
-karokedir=/mnt/mcc/multimedia/audio/karoke/karokebins
+karokedir=/mnt/mmc/multimedia/audio/karoke/karokebins
 tgzfile=`basename $0`
 cd /tmp
 rm -f image.png lyrics.txt

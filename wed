@@ -1,14 +1,37 @@
 #/bin/bash
-# Used for opening local (mounted) file to edit written by a brwowser
+# Used for opening local (mounted) file which name is written to filetoedit.txt
+# And paste the local absolute url to clipboard for insertion links to page in content
+# Any dummy argument abands opening editor and just pastes url
 
-# get filename being content of ~/Downloads/filetoedit.txt
-frombrowserfile=/var/www/nsh/domain/config/filetoedit.txt
+
+# document_root=/var/www/XXXXXXXX/domain
+# this script reads/writes document_root from ./.config/wed.cfg
+# calling this script with XXXXXXXX as arg just changes document_root and echoes that.
+basename=$(basename $0)
+dirname=$(dirname $0)
+if [ $# -gt 0 ]; then
+    document_root="/var/www/$1/domain"
+    echo $document_root >"$dirname/.config/$basename.cfg" 
+else
+    document_root=$(cat "$dirname/.config/$basename.cfg")
+fi
+
+data_root="$document_root/data"
+data_root_len=${#data_root}
+
+frombrowserfile="$document_root/config/filetoedit.txt"
 if ! [ -f "$frombrowserfile" ]; then
     echo "$frombrowserfile don't exists"
     exit
 fi
-filetoedit=$(cat $frombrowserfile)
-##rm $frombrowserfile
-ced $filetoedit
+filetoedit=($(cat $frombrowserfile))
+relfiletoedit="${filetoedit[1]:$data_root_len}"
+relfiletoeditlink=${relfiletoedit%.*}
+message=${filetoedit[0]//_/ }
+printf "$message\n"
+echo -n $relfiletoeditlink |xclip -sel clip
+if [ $# -gt 0 ]; then
+    echo "using $document_root"
+fi
+ced "--goto ${filetoedit[1]}"
 
-# and ~/Downloads/filetoedit.txt is subse

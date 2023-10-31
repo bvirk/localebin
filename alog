@@ -1,0 +1,8 @@
+#!/bin/bash
+# filtered view of last lines of apaches error log file
+# a dummy arg keeps referer request header part af lines
+withRef=no
+if [[ $# > 0 ]]; then
+    withRef=yes
+fi
+awk-alog -F ] -v withref=$withRef </var/log/apache2/error.log | tail -n 20

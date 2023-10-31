@@ -1,0 +1,10 @@
+#!/bin/bash
+# ck wrapper that closes terminal
+# used in a terminal window in same workspace as a browser
+
+ck "$@"
+sleep 1
+kill -9 $PPID
+
+
+
