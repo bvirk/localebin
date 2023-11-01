@@ -3,10 +3,11 @@
 # based on field seperator being ']' - args to this script being -F ] -v withref=no|yes
 { 
     time=substr($1,13,8);
+    mes=gensub(/\\n/,"\n","g",$5);
     if (withref == "no") {
-        print time,gensub(/referer.+$/,"","g",$5);
+        print time,gensub(/referer.+$/,"","g",mes);
     } else {
-        print time,$5;
+        print time,mes;
     }
 }       
 
