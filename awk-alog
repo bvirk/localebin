@@ -5,7 +5,8 @@
 # referer part is removed when withref=no
 { 
     # time=substr($1,13,8);
-    mes=gensub(/\\n/,"\n","g",$5);
+    mes=gensub(/(\[[^\]]+\]\s){4}/,"",1,$0);
+    mes=gensub(/\\n/,"\n","g",mes);
     if (withref == "no") {
         print gensub(/referer.+$/,"","g",mes);
     } else {
