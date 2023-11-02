@@ -1,13 +1,15 @@
 #! /usr/bin/awk -f
-# Filtered view of lines and timestamp where items 2-4 is removed
+# Filtered view of lines where only the 5th is showed 
 # based on field seperator being ']' - args to this script being -F ] -v withref=no|yes
+# litteral \n is replaced with newline.
+# referer part is removed when withref=no
 { 
-    time=substr($1,13,8);
+    # time=substr($1,13,8);
     mes=gensub(/\\n/,"\n","g",$5);
     if (withref == "no") {
-        print time,gensub(/referer.+$/,"","g",mes);
+        print gensub(/referer.+$/,"","g",mes);
     } else {
-        print time,mes;
+        print mes;
     }
 }       
 

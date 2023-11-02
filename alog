@@ -1,8 +1,35 @@
 #!/bin/bash
 # filtered view of last lines of apaches error log file
 # a dummy arg keeps referer request header part af lines
+# the lines showed is the lines following what was showed last time this script was executed
+# That means this script is meant to be called for inspection after a request has caused writting to error log
+
+# following is a php funtion which formats varible output, and make it handsome to show several variable
+# notice how "myvar=",$myvar arguments has a special effect.
+
+####  function errLog(... $argArr) {
+####      $lines='';
+####      foreach ($argArr as $arg)
+####          $lines .=
+####                 gettype($arg) == 'string' && substr($arg,strlen($arg)-1,1) == '=' 
+####                  ? "$arg "
+####                  : var_export($arg,true)."\n";
+####      error_log($lines);
+####  }      
+
+
+apacheErrLogFile=/var/log/apache2/error.log
+apacheErrLastLineFile=/tmp/apacheELR
+if [ -f $apacheErrLastLineFile ]; then
+    apacheLastLogLine=$(( $(cat $apacheErrLastLineFile)+1 )) ## last line + 2
+else
+    apacheLastLogLine=1
+fi
+
 withRef=no
 if [[ $# > 0 ]]; then
     withRef=yes
 fi
-awk-alog -F ] -v withref=$withRef </var/log/apache2/error.log | tail -n 20
+
+tail -n +$apacheLastLogLine $apacheErrLogFile|awk-alog -F ] -v withref=$withRef
+echo $(wc -l $apacheErrLogFile) | awk '{print $1}' >$apacheErrLastLineFile
