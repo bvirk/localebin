@@ -21,7 +21,7 @@
 apacheErrLogFile=/var/log/apache2/error.log
 apacheErrLastLineFile=/tmp/apacheELR
 if [ -f $apacheErrLastLineFile ]; then
-    apacheLastLogLine=$(( $(cat $apacheErrLastLineFile)+1 )) ## last line + 2
+    apacheLastLogLine=$(( $(cat $apacheErrLastLineFile)+1 ))
 else
     apacheLastLogLine=1
 fi
@@ -31,5 +31,5 @@ if [[ $# > 0 ]]; then
     withRef=yes
 fi
 
-tail -n +$apacheLastLogLine $apacheErrLogFile|awk-alog -F ] -v withref=$withRef
+tail -n +$apacheLastLogLine $apacheErrLogFile|awk-alog -v withref=$withRef
 echo $(wc -l $apacheErrLogFile) | awk '{print $1}' >$apacheErrLastLineFile
