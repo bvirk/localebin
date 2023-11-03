@@ -1,6 +1,5 @@
 #! /usr/bin/awk -f
 # Filtered view of lines where only the 5th is showed 
-# based on field seperator being ']' - args to this script being -F ] -v withref=no|yes
 # litteral \n is replaced with newline.
 # referer part is removed when withref=no
 { 
