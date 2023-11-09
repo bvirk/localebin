@@ -6,6 +6,7 @@
     # time=substr($1,13,8);
     mes=gensub(/(\[[^\]]+\]\s){4}/,"",1,$0);
     mes=gensub(/\\n/,"\n","g",mes);
+    mes=gensub(/\\\\'/,"'","g",mes);
     if (withref == "no") {
         print gensub(/referer.+$/,"","g",mes);
     } else {
