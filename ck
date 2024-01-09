@@ -94,7 +94,10 @@ void cyberkiss() {
 	case "da.wiki": // word [word ...]
 		browseThat("https://da.wikipedia.org/wiki/"+String.join("%20",args));
 		break;
-	case "thesaurus": // word
+    case "git": // word
+        browseThat("https://git-scm.com/docs/git-"+kiss);
+        break;
+    case "thesaurus": // word
 		browseThat("https://www.thesaurus.com/browse/"+URLEncoder.encode(kiss,"utf-8"));
 		break;
 	case "ordnet": // word
